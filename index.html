@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>GPA Calc</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <script
+    type="text/javascript"
+    src="/js/lib/dummy.js"
+    
+  ></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+
+
+  <style id="compiled-css" type="text/css">
+      table, th, td {
+  border: 0px solid black;
+}
+  </style>
+
+
+  <!-- TODO: Missing CoffeeScript 2 -->
+
+  <script type="text/javascript">
+
+
+    
+function computeGPA(form) {
+
+  if (form.ccgpa.value == "0" && form.tchtd.value == "0" && form.courseOne.value == "0" && form.courseTwo.value == "0" &&
+    form.courseThree.value == "0" && form.courseFour.value == "0" && form.courseFive.value == "0" &&
+    form.courseSix.value == "0") {
+    alert("You must enter your:\n Current Cumulative GPA\n Total Credit Hours\n AND MUST enter credit hours in at least one place");
+  } else {
+
+    form.resultOne.value = ((parseFloat(form.tchtd.value) * parseFloat(form.ccgpa.value)) +
+        (parseFloat(form.courseOne.value) * parseFloat(form.courseOneGrade.value)) +
+        (parseFloat(form.courseTwo.value) * parseFloat(form.courseTwoGrade.value)) +
+        (parseFloat(form.courseThree.value) * parseFloat(form.courseThreeGrade.value)) +
+        (parseFloat(form.courseFour.value) * parseFloat(form.courseFourGrade.value)) +
+        (parseFloat(form.courseFive.value) * parseFloat(form.courseFiveGrade.value)) +
+        (parseFloat(form.courseSix.value) * parseFloat(form.courseSixGrade.value))) /
+      (parseFloat(form.tchtd.value) + parseFloat(form.courseOne.value) + parseFloat(form.courseTwo.value) + parseFloat(form.courseThree.value) +
+        parseFloat(form.courseFour.value) + parseFloat(form.courseFive.value) + parseFloat(form.courseSix.value));
+
+  }
+
+}
+
+
+
+function computeGPAWithRetakes(form) {
+
+  if (form.ccgpa.value == "0" && form.tchtd.value == "0" && form.courseOne.value == "0" && form.courseTwo.value == "0" &&
+    form.courseThree.value == "0" && form.courseFour.value == "0" && form.courseFive.value == "0" &&
+    form.courseSix.value == "0") {
+    alert("You must enter your:\n Current Cumulative GPA\n Total Credit Hours\n AND MUST enter credit hours in at least one place");
+  } else {
+
+    form.resultOne.value = ((parseFloat(form.tchtd.value) * parseFloat(form.ccgpa.value)) +
+        (parseFloat(form.courseOne.value) * parseFloat(form.courseOneGrade.value)) +
+        (parseFloat(form.courseTwo.value) * parseFloat(form.courseTwoGrade.value)) +
+        (parseFloat(form.courseThree.value) * parseFloat(form.courseThreeGrade.value)) +
+        (parseFloat(form.courseFour.value) * parseFloat(form.courseFourGrade.value)) +
+        (parseFloat(form.courseFive.value) * parseFloat(form.courseFiveGrade.value)) +
+        (parseFloat(form.courseSix.value) * parseFloat(form.courseSixGrade.value)) -
+        (parseFloat(form.prevCourseOne.value) * parseFloat(form.prevCourseOneGrade.value)) -
+        (parseFloat(form.prevCourseTwo.value) * parseFloat(form.prevCourseTwoGrade.value)) -
+        (parseFloat(form.prevCourseThree.value) * parseFloat(form.prevCourseThreeGrade.value)) -
+        (parseFloat(form.prevCourseFour.value) * parseFloat(form.prevCourseFourGrade.value)) -
+        (parseFloat(form.prevCourseFive.value) * parseFloat(form.prevCourseFiveGrade.value)) -
+        (parseFloat(form.prevCourseSix.value) * parseFloat(form.prevCourseSixGrade.value))) /
+      (parseFloat(form.tchtd.value) + parseFloat(form.courseOne.value) + parseFloat(form.courseTwo.value) + parseFloat(form.courseThree.value) +
+        parseFloat(form.courseFour.value) + parseFloat(form.courseFive.value) + parseFloat(form.courseSix.value) - parseFloat(form.prevCourseOne.value) - parseFloat(form.prevCourseTwo.value) - parseFloat(form.prevCourseThree.value) - parseFloat(form.prevCourseFour.value) - parseFloat(form.prevCourseFive.value) - parseFloat(form.prevCourseSix.value));
+
+  }
+
+}
+
+
+
+function addRetakes(form) {
+  var courseOneValue = form.courseOne.value;
+  var courseOneGradeValue = form.courseOneGrade.value;
+  var courseTwoValue = form.courseTwo.value;
+  var courseTwoGradeValue = form.courseTwoGrade.value;
+  var courseThreeValue = form.courseThree.value;
+  var courseThreeGradeValue = form.courseThreeGrade.value;
+  var courseFourValue = form.courseFour.value;
+  var courseFourGradeValue = form.courseFourGrade.value;
+  var courseFiveValue = form.courseFive.value;
+  var courseFiveGradeValue = form.courseFiveGrade.value;
+  var courseSixValue = form.courseSix.value;
+  var courseSixGradeValue = form.courseSixGrade.value;
+
+  var retakesDisplay = document.getElementById('retakesTable');
+  retakesDisplay.innerHTML = `
+		<tr>
+                                    <td colspan="2">
+                                       <h4>Input your current course credit hours and anticipated grades.</h4>
+                                       
+                                    </td>
+                                 </tr>
+                                 
+                                 
+                                 <tr>
+                                    
+                                    <td>
+                                       <h4>Credit Hours</h4>
+                                    </td>
+                                    
+                                    <td>
+                                       <h4>Anticipated Grade</h4>
+                                    </td>
+                                    
+                                 </tr>
+                                 	
+                                 <tr>
+                                    	
+                                    <td><b>Course 1 </b>
+                                       	  <select name="courseOne">
+                                          
+                                          <option value="0" selected>0</option>
+                                          
+                                          <option value="1">1</option>
+                                          
+                                          <option value="2">2</option>
+                                          
+                                          <option value="3">3</option>
+                                          
+                                          <option value="4">4</option>
+                                          
+                                          <option value="5">5</option>
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseOneGrade">
+                                          
+                                          <option value="0">F</option>                   
+                                          
+                                          <option value="1.0">D</option> 
+                                          
+                                          <option value="2.0">C</option>
+                                          
+                                          <option value="3.0">B</option>
+                                          
+                                          <option value="4.0" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                 </tr>
+                                 
+                                 
+                                 
+                                 <tr>
+                                    	
+                                    <td><b>Course 2 </b>
+                                       	  <select name="courseTwo">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseTwoGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                 </tr>
+                                 
+                                 
+                                 <tr>
+                                    	
+                                    <td><b>Course 3 </b>
+                                       	  <select name="courseThree">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseThreeGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                 </tr>
+                                 
+                                 
+                                 <tr>
+                                    	
+                                    <td><b>Course 4 </b>
+                                       	  <select name="courseFour">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseFourGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                 </tr>
+                                 
+                                 
+                                 <tr>
+                                    	
+                                    <td><b>Course 5 </b>
+                                       	  <select name="courseFive">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseFiveGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                 </tr>
+                                 
+                                 
+                                 <tr>
+                                    	
+                                    <td><b>Course 6</b> <select name="courseSix">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseSixGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                    
+                                 </tr>
+                                 
+                                 <tr>
+  <td><b>Did you retake any of the courses above?</b>                            
+  </td>
+
+  <td>
+    <input type="button" value="No" onclick="removeRetakes(this.form)">
+  </td>
+
+</tr>
+
+<tr>
+		  <td colspan="2">
+			<h4>For repeat courses:<br>Input your previous credit hours and previous grade.</h4>                                    
+		  </td>
+		</tr>
+										 
+		<tr>
+		  <td>
+			<h4>Credit Hours</h4>
+		  </td>
+											
+		  <td>
+			<h4>Previous Grade</h4>
+		  </td>
+											
+		</tr>
+											
+		<tr>
+			<td><b>Course 1 </b>
+				<select name="prevCourseOne">
+
+				<option value="0" selected>0</option>
+
+				<option value="1">1</option>
+
+				<option value="2">2</option>
+
+				<option value="3">3</option>
+
+				<option value="4">4</option>
+
+				<option value="5">5</option>
+				</select>
+											   
+			</td>
+			
+			<td>
+				<select name="prevCourseOneGrade">
+				  
+				<option value="0">F</option>                   
+
+				<option value="1.0">D</option> 
+
+				<option value="2.0">C</option>
+
+				<option value="3.0">B</option>
+
+				<option value="4.0" selected>A</option>
+				</select>
+
+			</td>
+											
+		</tr>
+
+		<tr>
+			<td><b>Course 2 </b>
+				<select name="prevCourseTwo">
+
+				<option value="0" selected>0</option> 
+
+				<option value="1">1</option> 
+
+				<option value="2">2</option> 
+
+				<option value="3">3</option> 
+
+				<option value="4">4</option> 
+
+				<option value="5">5</option> 
+				</select>
+			</td>
+
+			<td>
+				<select name="prevCourseTwoGrade">
+
+				<option value="0">F</option>                        
+
+				<option value="1">D</option> 
+
+				<option value="2">C</option>
+
+				<option value="3">B</option>
+
+				<option value="4" selected>A</option>
+				</select>
+			</td>
+		</tr>
+										 
+										 
+		<tr>
+			<td><b>Course 3 </b>
+				  <select name="prevCourseThree">
+				  
+				  <option value="0" selected>0</option> 
+				  
+				  <option value="1">1</option> 
+				  
+				  <option value="2">2</option> 
+				  
+				  <option value="3">3</option> 
+				  
+				  <option value="4">4</option> 
+				  
+				  <option value="5">5</option> 
+				  </select>
+			   
+			</td>
+
+		<td>
+		   <select name="prevCourseThreeGrade">
+			  
+			  <option value="0">F</option>                        
+			  
+			  <option value="1">D</option> 
+			  
+			  <option value="2">C</option>
+			  
+			  <option value="3">B</option>
+			  
+			  <option value="4" selected>A</option>
+			  </select>
+		   
+		   
+		</td>
+
+		</tr>
+
+
+		<tr>
+			
+		<td><b>Course 4 </b>
+			  <select name="prevCourseFour">
+			  
+			  <option value="0" selected>0</option> 
+			  
+			  <option value="1">1</option> 
+			  
+			  <option value="2">2</option> 
+			  
+			  <option value="3">3</option> 
+			  
+			  <option value="4">4</option> 
+			  
+			  <option value="5">5</option> 
+			  </select>
+		   
+		</td>
+
+		<td>
+		   <select name="prevCourseFourGrade">
+			  
+			  <option value="0">F</option>                        
+			  
+			  <option value="1">D</option> 
+			  
+			  <option value="2">C</option>
+			  
+			  <option value="3">B</option>
+			  
+			  <option value="4" selected>A</option>
+			  </select>
+		   
+		   
+		</td>
+
+		</tr>
+
+
+		<tr>
+			
+		<td><b>Course 5 </b>
+			  <select name="prevCourseFive">
+			  
+			  <option value="0" selected>0</option> 
+			  
+			  <option value="1">1</option> 
+			  
+			  <option value="2">2</option> 
+			  
+			  <option value="3">3</option> 
+			  
+			  <option value="4">4</option> 
+			  
+			  <option value="5">5</option> 
+			  </select>
+		   
+		</td>
+
+		<td>
+		   <select name="prevCourseFiveGrade">
+			  
+			  <option value="0">F</option>                        
+			  
+			  <option value="1">D</option> 
+			  
+			  <option value="2">C</option>
+			  
+			  <option value="3">B</option>
+			  
+			  <option value="4" selected>A</option>
+			  </select>
+		   
+		   
+		</td>
+
+		</tr>
+
+
+		<tr>
+			
+		<td><b>Course 6</b>
+			  <select name="prevCourseSix">
+			  
+			  <option value="0" selected>0</option> 
+			  
+			  <option value="1">1</option> 
+			  
+			  <option value="2">2</option> 
+			  
+			  <option value="3">3</option> 
+			  
+			  <option value="4">4</option> 
+			  
+			  <option value="5">5</option> 
+			  </select>
+		   
+		</td>
+
+		<td>
+		   <select name="prevCourseSixGrade">
+			  
+			  <option value="0">F</option>                        
+			  
+			  <option value="1">D</option> 
+			  
+			  <option value="2">C</option>
+			  
+			  <option value="3">B</option>
+			  
+			  <option value="4" selected>A</option>
+			  </select>
+		   
+		   
+		</td>
+
+
+		</tr>
+
+                                 <tr>
+                                    		    
+                                    <td colspan="2" align="center">
+                                       	<input type="button" value="Calculate GPA" onclick="computeGPAWithRetakes(this.form)"> <input type="text" Name="resultOne" size="10">
+                                       		    
+                                    </td>
+                                    
+                                 </tr>
+
+	`;
+
+  form.courseOne.value = courseOneValue;
+  form.courseOneGrade.value = courseOneGradeValue;
+  form.courseTwo.value = courseTwoValue;
+  form.courseTwoGrade.value = courseTwoGradeValue;
+  form.courseThree.value = courseThreeValue;
+  form.courseThreeGrade.value = courseThreeGradeValue;
+  form.courseFour.value = courseFourValue;
+  form.courseFourGrade.value = courseFourGradeValue;
+  form.courseFive.value = courseFiveValue;
+  form.courseFiveGrade.value = courseFiveGradeValue;
+  form.courseSix.value = courseSixValue;
+  form.courseSixGrade.value = courseSixGradeValue;
+
+}
+
+
+
+function removeRetakes(form) {
+
+  var courseOneValue = form.courseOne.value;
+  var courseOneGradeValue = form.courseOneGrade.value;
+  var courseTwoValue = form.courseTwo.value;
+  var courseTwoGradeValue = form.courseTwoGrade.value;
+  var courseThreeValue = form.courseThree.value;
+  var courseThreeGradeValue = form.courseThreeGrade.value;
+  var courseFourValue = form.courseFour.value;
+  var courseFourGradeValue = form.courseFourGrade.value;
+  var courseFiveValue = form.courseFive.value;
+  var courseFiveGradeValue = form.courseFiveGrade.value;
+  var courseSixValue = form.courseSix.value;
+  var courseSixGradeValue = form.courseSixGrade.value;
+
+  var retakesDisplay = document.getElementById('retakesTable');
+  retakesDisplay.innerHTML = `
+		<tr>
+                                    <td colspan="2">
+                                       <h4>Input your current course credit hours and anticipated grades.</h4>
+                                       
+                                    </td>
+                                 </tr>
+                                 
+                                 
+                                 <tr>
+                                    
+                                    <td>
+                                       <h4>Credit Hours</h4>
+                                    </td>
+                                    
+                                    <td>
+                                       <h4>Anticipated Grade</h4>
+                                    </td>
+                                    
+                                 </tr>
+                                 	
+                                 <tr>
+                                    	
+                                    <td><b>Course 1 </b>
+                                       	  <select name="courseOne">
+                                          
+                                          <option value="0" selected>0</option>
+                                          
+                                          <option value="1">1</option>
+                                          
+                                          <option value="2">2</option>
+                                          
+                                          <option value="3">3</option>
+                                          
+                                          <option value="4">4</option>
+                                          
+                                          <option value="5">5</option>
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseOneGrade">
+                                          
+                                          <option value="0">F</option>                   
+                                          
+                                          <option value="1.0">D</option> 
+                                          
+                                          <option value="2.0">C</option>
+                                          
+                                          <option value="3.0">B</option>
+                                          
+                                          <option value="4.0" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                 </tr>
+                                 
+                                 
+                                 
+                                 <tr>
+                                    	
+                                    <td><b>Course 2 </b>
+                                       	  <select name="courseTwo">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseTwoGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                 </tr>
+                                 
+                                 
+                                 <tr>
+                                    	
+                                    <td><b>Course 3 </b>
+                                       	  <select name="courseThree">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseThreeGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                 </tr>
+                                 
+                                 
+                                 <tr>
+                                    	
+                                    <td><b>Course 4 </b>
+                                       	  <select name="courseFour">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseFourGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                 </tr>
+                                 
+                                 
+                                 <tr>
+                                    	
+                                    <td><b>Course 5 </b>
+                                       	  <select name="courseFive">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseFiveGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                 </tr>
+                                 
+                                 
+                                 <tr>
+                                    	
+                                    <td><b>Course 6</b> <select name="courseSix">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+                                       
+                                    </td>
+                                    
+                                    <td>
+                                       <select name="courseSixGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+                                       
+                                       
+                                    </td>
+                                    
+                                    
+                                 </tr>
+                                 
+                                 <tr>
+  <td><b>Did you retake any of the courses above?</b>                            
+  </td>
+
+  <td>
+    <input type="button" value="Yes" onclick="addRetakes(this.form)">
+  </td>
+
+</tr>
+                                 <tr>
+                                    		    
+                                    <td colspan="2" align="center">
+                                       	<input type="button" value="Calculate GPA" onclick="computeGPA(this.form)"> <input type="text" Name="resultOne" size="10">
+                                       		    
+                                    </td>
+                                    
+                                 </tr>
+
+	`;
+
+  form.courseOne.value = courseOneValue;
+  form.courseOneGrade.value = courseOneGradeValue;
+  form.courseTwo.value = courseTwoValue;
+  form.courseTwoGrade.value = courseTwoGradeValue;
+  form.courseThree.value = courseThreeValue;
+  form.courseThreeGrade.value = courseThreeGradeValue;
+  form.courseFour.value = courseFourValue;
+  form.courseFourGrade.value = courseFourGradeValue;
+  form.courseFive.value = courseFiveValue;
+  form.courseFiveGrade.value = courseFiveGradeValue;
+  form.courseSix.value = courseSixValue;
+  form.courseSixGrade.value = courseSixGradeValue;
+
+}
+
+
+
+</script>
+
+</head>
+<body>
+    <div id="main">
+  <h1 align="center">GPA Calculator</h1>
+  <h4 align="center">See how your future anticipated grades will affect your GPA.</h4>
+  
+  <div id="form">
+    <form action="none" name="gpaCalc">
+
+      <table align="center">
+        
+        <tr>
+
+          <td>
+
+                <b>Current Cumulative GPA:</b>
+          </td>
+          <td>
+                <input type="text" name="ccgpa" value="0">
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+            <b>Total Completed Credit Hours:</b>
+          </td>
+          <td>
+            <input type="text" name="tchtd" value="0">
+          </td>
+        </tr>
+
+      </table>
+
+      <!--<p align="center"><input type="reset" value="Clear Form"></p>
+
+      <p>&nbsp;</p> -->
+
+      <p style="line-height: 100%"></p>
+
+      
+
+      <table id="retakesTable" class="calculator table-responsive" align="center">
+
+        <tr>
+          <td colspan="2">
+            <h4>Input your current course credit hours and anticipated grades.</h4>
+
+          </td>
+        </tr>
+
+
+        <tr>
+
+          <td>
+            <h4>Credit Hours</h4>
+          </td>
+
+          <td>
+            <h4>Anticipated Grade</h4>
+          </td>
+
+        </tr>
+
+        <tr>
+
+          <td><b>Course 1 </b>
+            <select name="courseOne">
+                                          
+                                          <option value="0" selected>0</option>
+                                          
+                                          <option value="1">1</option>
+                                          
+                                          <option value="2">2</option>
+                                          
+                                          <option value="3">3</option>
+                                          
+                                          <option value="4">4</option>
+                                          
+                                          <option value="5">5</option>
+                                          </select>
+
+          </td>
+
+          <td>
+            <select name="courseOneGrade">
+                                          
+                                          <option value="0">F</option>                   
+                                          
+                                          <option value="1.0">D</option> 
+                                          
+                                          <option value="2.0">C</option>
+                                          
+                                          <option value="3.0">B</option>
+                                          
+                                          <option value="4.0" selected>A</option>
+                                          </select>
+
+
+          </td>
+
+        </tr>
+
+
+
+        <tr>
+
+          <td><b>Course 2 </b>
+            <select name="courseTwo">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+
+          </td>
+
+          <td>
+            <select name="courseTwoGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+
+
+          </td>
+
+        </tr>
+
+
+        <tr>
+
+          <td><b>Course 3 </b>
+            <select name="courseThree">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+
+          </td>
+
+          <td>
+            <select name="courseThreeGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+
+
+          </td>
+
+        </tr>
+
+
+        <tr>
+
+          <td><b>Course 4 </b>
+            <select name="courseFour">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+
+          </td>
+
+          <td>
+            <select name="courseFourGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+
+
+          </td>
+
+        </tr>
+
+
+        <tr>
+
+          <td><b>Course 5 </b>
+            <select name="courseFive">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+
+          </td>
+
+          <td>
+            <select name="courseFiveGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+
+
+          </td>
+
+        </tr>
+
+
+        <tr>
+
+          <td><b>Course 6</b> <select name="courseSix">
+                                          
+                                          <option value="0" selected>0</option> 
+                                          
+                                          <option value="1">1</option> 
+                                          
+                                          <option value="2">2</option> 
+                                          
+                                          <option value="3">3</option> 
+                                          
+                                          <option value="4">4</option> 
+                                          
+                                          <option value="5">5</option> 
+                                          </select>
+
+          </td>
+
+          <td>
+            <select name="courseSixGrade">
+                                          
+                                          <option value="0">F</option>                        
+                                          
+                                          <option value="1">D</option> 
+                                          
+                                          <option value="2">C</option>
+                                          
+                                          <option value="3">B</option>
+                                          
+                                          <option value="4" selected>A</option>
+                                          </select>
+
+
+          </td>
+
+
+        </tr>
+
+
+        <tr>
+          <td><b>Did you retake any of the courses above?</b>
+          </td>
+
+          <td>
+            <input type="button" value="Yes" onclick="addRetakes(this.form)">
+          </td>
+
+        </tr>
+
+
+        <tr>
+
+          <td colspan="2" align="center">
+            <input type="button" value="Calculate GPA" onclick="computeGPA(this.form)"> <input type="text" Name="resultOne" size="10">
+
+          </td>
+
+        </tr>
+
+
+      </table>
+
+
+      
+
+      <p align="center"><input type="reset" value="Clear Form"></p>
+
+    </form>
+
+    <script language="JavaScript" type="text/javascript" src="/_resources/js/gpacalc.js">
+      //
+
+    </script>
+  </div>
+</div>
+
+
+  
+  <script>
+    // tell the embed parent frame the height of the content
+    if (window.parent && window.parent.parent){
+      window.parent.parent.postMessage(["resultsFrame", {
+        height: document.body.getBoundingClientRect().height,
+        slug: "mt9ygcvs"
+      }], "*")
+    }
+
+    // always overwrite window.name, in case users try to set it manually
+    window.name = "result"
+  </script>
+</body>
+</html>
